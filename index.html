@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webアプリのデプロイ基礎 - 学習ガイド</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100">
+    <!-- ナビゲーション -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-indigo-600">デプロイの基礎</h1>
+            <ul class="hidden md:flex space-x-6">
+                <li><a href="#what-is" class="text-gray-700 hover:text-indigo-600 transition">デプロイとは</a></li>
+                <li><a href="#webserver" class="text-gray-700 hover:text-indigo-600 transition">Webサーバー</a></li>
+                <li><a href="#deployment" class="text-gray-700 hover:text-indigo-600 transition">デプロイ方法</a></li>
+                <li><a href="#services" class="text-gray-700 hover:text-indigo-600 transition">サービス比較</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ヒーローセクション -->
+    <section class="max-w-6xl mx-auto px-4 pt-16 text-center">
+        <h2 class="text-3xl md:text-5xl font-bold text-gray-800 mb-4">Webアプリのデプロイを理解しよう</h2>
+        <p class="text-xl text-gray-600 mb-8">自分のパソコンで動いているアプリを、世界中のユーザーに届けるまでの道のり</p>
+    </section>
+
+    <!-- デプロイとは -->
+    <section id="what-is" class="bg-white py-16 shadow-lg rounded-lg max-w-6xl mx-auto px-4">
+        <h2 class="text-2xl md:text-4xl font-bold text-gray-800 mb-8 border-b-4 border-indigo-600 pb-4">デプロイメントとは</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+            <div>
+                <h3 class="text-2xl font-bold text-indigo-600 mb-4">📝 定義</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    デプロイメント（deployment）は、ビルドされたアプリケーションを本番環境に<strong>配置する</strong>プロセスです。
+                </p>
+                <p class="text-gray-700 leading-relaxed">
+                    「自分のパソコンで動いているアプリを、サーバーやクラウド環境に置く」という理解で大丈夫です。
+                </p>
+            </div>
+            <div class="bg-indigo-50 p-6 rounded-lg border-l-4 border-indigo-600">
+                <h3 class="text-2xl font-bold text-indigo-600 mb-4">🔄 プロセス全体</h3>
+                <ol class="space-y-3 text-gray-700">
+                    <li><strong>1. コードの準備</strong> - テストが通っているか確認</li>
+                    <li><strong>2. ビルド</strong> - ソースコードを実行可能な形に変換</li>
+                    <li><strong>3. 環境設定</strong> - 環境変数やDB接続を設定</li>
+                    <li><strong>4. 配置</strong> - 本番環境にアップロード（これがデプロイ）</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <!-- Webサーバー -->
+    <section id="webserver" class="bg-gradient-to-r from-blue-50 to-cyan-50 py-16 max-w-6xl mx-auto my-8 px-4 rounded-lg">
+        <h2 class="text-2xl md:text-4xl font-bold text-gray-800 mb-8 border-b-4 border-blue-600 pb-4">Webサーバーの基本</h2>
+        
+        <div class="mb-8">
+            <h3 class="text-2xl font-bold text-blue-600 mb-4">リクエスト ↔ レスポンス</h3>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-blue-100 p-4 rounded-lg flex-1">
+                            <p class="font-bold text-blue-900">1️⃣ ユーザーがブラウザでURLを入力</p>
+                            <p class="text-sm text-gray-600">例：https://example.com</p>
+                        </div>
+                    </div>
+                    <div class="text-center text-2xl text-gray-400">↓</div>
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-blue-100 p-4 rounded-lg flex-1">
+                            <p class="font-bold text-blue-900">2️⃣ ブラウザが「リクエスト」を送信</p>
+                            <p class="text-sm text-gray-600">「HTMLファイルをください」</p>
+                        </div>
+                    </div>
+                    <div class="text-center text-2xl text-gray-400">↓</div>
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-cyan-100 p-4 rounded-lg flex-1">
+                            <p class="font-bold text-cyan-900">3️⃣ サーバーが「レスポンス」を返信</p>
+                            <p class="text-sm text-gray-600">HTMLファイル、CSS、JavaScriptなどを送信</p>
+                        </div>
+                    </div>
+                    <div class="text-center text-2xl text-gray-400">↓</div>
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-cyan-100 p-4 rounded-lg flex-1">
+                            <p class="font-bold text-cyan-900">4️⃣ ブラウザが表示</p>
+                            <p class="text-sm text-gray-600">受け取ったファイルを解析してWebページを表示</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-bold text-blue-600 mb-4">📦 Webサーバーの役割</h3>
+                <ul class="space-y-2 text-gray-700">
+                    <li>✓ HTTPリクエストを受け取る</li>
+                    <li>✓ ファイルを検索する</li>
+                    <li>✓ ファイルをブラウザに送信</li>
+                    <li>✓ エラー処理（404など）</li>
+                    <li>✓ アクセス制御</li>
+                </ul>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-bold text-blue-600 mb-4">🔧 Webサーバーの例</h3>
+                <ul class="space-y-2 text-gray-700">
+                    <li><strong>Apache</strong> - 最も使われている</li>
+                    <li><strong>nginx</strong> - 軽量で高速</li>
+                    <li><strong>IIS</strong> - Windows向け</li>
+                    <li><strong>Caddy</strong> - モダンで簡単</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- デプロイ方法 -->
+    <section id="deployment" class="bg-white py-16 max-w-6xl mx-auto my-8 px-4 rounded-lg shadow-lg">
+        <h2 class="text-2xl md:text-4xl font-bold text-gray-800 mb-8 border-b-4 border-green-600 pb-4">従来のデプロイ vs 現代のデプロイ</h2>
+        
+        <div class="grid md:grid-cols-2 gap-8">
+            <!-- 従来のデプロイ -->
+            <div class="border-l-4 border-red-500 pl-6">
+                <h3 class="text-2xl font-bold text-red-600 mb-4">❌ 従来のデプロイ</h3>
+                <div class="space-y-4">
+                    <div class="bg-red-50 p-4 rounded">
+                        <h4 class="font-bold text-red-700">FTP + レンタルサーバー</h4>
+                        <p class="text-sm text-gray-600 mt-2">FileZillaなどでファイルを手動アップロード</p>
+                    </div>
+                    <ul class="space-y-2 text-gray-700 text-sm">
+                        <li>🚫 手動でのアップロード（ミスが多い）</li>
+                        <li>🚫 セキュリティが弱い（FTPは暗号化なし）</li>
+                        <li>🚫 バージョン管理がない</li>
+                        <li>🚫 自動化できない</li>
+                        <li>🚫 スケーリングが難しい</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 現代のデプロイ -->
+            <div class="border-l-4 border-green-500 pl-6">
+                <h3 class="text-2xl font-bold text-green-600 mb-4">✅ 現代のデプロイ</h3>
+                <div class="space-y-4">
+                    <div class="bg-green-50 p-4 rounded">
+                        <h4 class="font-bold text-green-700">Git連携 + クラウドホスティング</h4>
+                        <p class="text-sm text-gray-600 mt-2">GitHubにpushするだけで自動デプロイ</p>
+                    </div>
+                    <ul class="space-y-2 text-gray-700 text-sm">
+                        <li>✅ 自動デプロイ（人為的ミスなし）</li>
+                        <li>✅ セキュリティが高い（HTTPS自動）</li>
+                        <li>✅ バージョン管理完全（Git）</li>
+                        <li>✅ CI/CD完全自動化</li>
+                        <li>✅ 世界規模のCDNで高速配信</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- サービス比較 -->
+    <section id="services" class="bg-gray-50 py-16 max-w-6xl mx-auto my-8 px-4 rounded-lg">
+        <h2 class="text-2xl md:text-4xl font-bold text-gray-800 mb-8 border-b-4 border-purple-600 pb-4">ホスティングサービス比較</h2>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- GitHub Pages -->
+            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
+                <div class="text-4xl mb-2">📄</div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">GitHub Pages</h3>
+                <div class="space-y-2 text-sm text-gray-700 mb-4">
+                    <p><strong>最適：</strong> 静的サイト</p>
+                    <p><strong>料金：</strong> 無料</p>
+                    <p><strong>セットアップ：</strong> 最簡単</p>
+                </div>
+                <div class="text-xs space-y-1">
+                    <p class="text-green-600">✅ 完全無料</p>
+                    <p class="text-green-600">✅ 最もシンプル</p>
+                    <p class="text-red-600">❌ 静的のみ</p>
+                </div>
+            </div>
+
+            <!-- Vercel -->
+            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition border-t-4 border-indigo-600">
+                <div class="text-4xl mb-2">⚡</div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">Vercel</h3>
+                <div class="space-y-2 text-sm text-gray-700 mb-4">
+                    <p><strong>最適：</strong> Next.js</p>
+                    <p><strong>料金：</strong> 無料+有料</p>
+                    <p><strong>セットアップ：</strong> 簡単</p>
+                </div>
+                <div class="text-xs space-y-1">
+                    <p class="text-green-600">✅ Next.js最適化</p>
+                    <p class="text-green-600">✅ SSR対応</p>
+                    <p class="text-yellow-600">⚠️ 帯域幅制限あり</p>
+                </div>
+            </div>
+
+            <!-- Netlify -->
+            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition border-t-4 border-cyan-600">
+                <div class="text-4xl mb-2">🎨</div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">Netlify</h3>
+                <div class="space-y-2 text-sm text-gray-700 mb-4">
+                    <p><strong>最適：</strong> React/Vue</p>
+                    <p><strong>料金：</strong> 無料+有料</p>
+                    <p><strong>セットアップ：</strong> 簡単</p>
+                </div>
+                <div class="text-xs space-y-1">
+                    <p class="text-green-600">✅ 多フレームワーク対応</p>
+                    <p class="text-green-600">✅ フォーム処理機能</p>
+                    <p class="text-yellow-600">⚠️ 帯域幅制限あり</p>
+                </div>
+            </div>
+
+            <!-- Cloudflare Pages -->
+            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition border-t-4 border-orange-600">
+                <div class="text-4xl mb-2">☁️</div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">Cloudflare</h3>
+                <div class="space-y-2 text-sm text-gray-700 mb-4">
+                    <p><strong>最適：</strong> 複数対応</p>
+                    <p><strong>料金：</strong> 無料+有料</p>
+                    <p><strong>セットアップ：</strong> 簡単</p>
+                </div>
+                <div class="text-xs space-y-1">
+                    <p class="text-green-600">✅ 帯域幅無制限</p>
+                    <p class="text-green-600">✅ グローバルCDN</p>
+                    <p class="text-green-600">✅ 月500ビルド無料</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 学習パス -->
+    <section class="bg-gradient-to-r from-purple-100 to-pink-100 py-16 max-w-6xl mx-auto my-8 px-4 rounded-lg">
+        <h2 class="text-2xl md:text-4xl font-bold text-gray-800 mb-8 text-center">学習パス：段階的なスキルアップ</h2>
+        
+        <div class="space-y-6">
+            <div class="flex items-center space-x-6">
+                <div class="hidden md:flex bg-indigo-600 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold">1</div>
+                <div class="bg-white p-6 rounded-lg shadow-md flex-1">
+                    <h3 class="text-xl font-bold text-indigo-600 mb-2">React学習段階</h3>
+                    <p class="text-gray-700">GitHub Pagesで十分。静的なReactアプリをデプロイできます。</p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-6">
+                <div class="hidden md:flex bg-indigo-600 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold">2</div>
+                <div class="bg-white p-6 rounded-lg shadow-md flex-1">
+                    <h3 class="text-xl font-bold text-indigo-600 mb-2">Next.js導入</h3>
+                    <p class="text-gray-700">Vercelを選択。Next.jsとの完全な統合で簡単にSSR対応できます。</p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-6">
+                <div class="hidden md:flex bg-indigo-600 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold">3</div>
+                <div class="bg-white p-6 rounded-lg shadow-md flex-1">
+                    <h3 class="text-xl font-bold text-indigo-600 mb-2">バックエンド連携</h3>
+                    <p class="text-gray-700">Supabase等のBaaS連携。Vercelを継続。API統合が自動化されます。</p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-6">
+                <div class="hidden md:flex bg-indigo-600 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold">4</div>
+                <div class="bg-white p-6 rounded-lg shadow-md flex-1">
+                    <h3 class="text-xl font-bold text-indigo-600 mb-2">大規模プロジェクト</h3>
+                    <p class="text-gray-700">要件に応じて複数サービスの組み合わせ。独自サーバー構築も視野に。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- まとめ -->
+    <section class="bg-white py-16 max-w-6xl mx-auto my-8 px-4 rounded-lg shadow-lg">
+        <h2 class="text-2xl md:text-4xl font-bold text-gray-800 mb-8 border-b-4 border-teal-600 pb-4">まとめ</h2>
+        
+        <div class="grid md:grid-cols-2 gap-8">
+            <div>
+                <h3 class="text-2xl font-bold text-teal-600 mb-4">🎯 現代のデプロイの特徴</h3>
+                <ul class="space-y-3 text-gray-700">
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-3">✅</span>
+                        <span><strong>Git連携</strong>：コード変更が自動的に本番環境に反映</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-3">✅</span>
+                        <span><strong>完全な自動管理</strong>：インフラの設定や運用は不要</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-3">✅</span>
+                        <span><strong>世界規模のCDN</strong>：どの地域からでも高速アクセス</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-3">✅</span>
+                        <span><strong>無料でスタート</strong>：学習段階でコストなし</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="bg-gradient-to-br from-teal-50 to-cyan-50 p-6 rounded-lg">
+                <h3 class="text-2xl font-bold text-teal-600 mb-4">💡 重要なポイント</h3>
+                <p class="text-gray-700 mb-4">
+                    プログラミング初心者にとって、現代的なデプロイツールの登場は非常に重要です。
+                </p>
+                <p class="text-gray-700 mb-4">
+                    かつては、素晴らしいアプリケーションを作ってもインフラ知識がなければ公開できませんでした。
+                </p>
+                <p class="text-gray-700 font-bold text-teal-700">
+                    今は、コードを書く能力さえあれば、インフラの心配なく世界中に向けてアプリケーションを公開できます！
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer class="bg-gray-800 text-white py-8 text-center">
+        <p class="mb-2">Webアプリのデプロイ基礎 - 学習ガイド</p>
+        <p class="text-gray-400 text-sm">GitHub Pagesで公開されています</p>
+    </footer>
+</body>
+</html>
